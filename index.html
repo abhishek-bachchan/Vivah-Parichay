@@ -413,7 +413,7 @@ body.hindi .acc-title-hi{display:block;}
             </div>
           </div>
         </div>
-        <div style="font-size:8px;color:var(--gold2);letter-spacing:1px;opacity:.6;text-align:center;margin-top:3px;">tap photo to flip</div>
+        <div class="flip-tap-hint-txt" style="font-size:8px;color:var(--gold2);letter-spacing:1px;opacity:.6;text-align:center;margin-top:3px;">tap photo to flip</div>
       </div>
       <div class="hero-mid">
         <input class="hero-name-in" id="hero-name" placeholder="Your Full Name" oninput="syncBento()"/>
@@ -1422,6 +1422,21 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   syncBento();
   hookAutoSave();
+
+  /* ── Make all fields read-only ── */
+  document.querySelectorAll('input,textarea').forEach(el=>{
+    el.setAttribute('readonly','');
+    el.style.cursor='default';
+    el.style.borderBottom='none';
+  });
+  document.querySelectorAll('.upload-zone,.add-btn,.rm-btn,.hb-add,input[type=file]').forEach(el=>el.style.display='none');
+  document.querySelectorAll('.hb').forEach(el=>{ el.style.pointerEvents='none'; el.style.cursor='default'; });
+  document.querySelectorAll('.acc-ico input[type=file]').forEach(el=>el.style.display='none');
+  document.querySelectorAll('.flip-tap-hint,.flip-tap-hint-txt,.sec-img-slot').forEach(el=>el.style.display='none');
+  /* Hide edit-mode topbar buttons */
+  document.getElementById('btn-edit').style.display='none';
+  document.querySelector('[onclick="clearSavedData()"]').style.display='none';
+  document.querySelector('[onclick="exportComplete()"]').style.display='none';
 });
 
 /* Load all fields from BIODATA config object */
