@@ -53,53 +53,60 @@ const BIODATA = {
   },
 
   // ── HERO ─────────────────────────────────────────────
-  name:       "Rahul Sharma",
-  instagram:  "instagram.com/rahulsharma",    // leave "" to hide
-  linkedin:   "linkedin.com/in/rahulsharma",  // leave "" to hide
+  name:       "Abhishek Bachchan Rai",
+  instagram:  "https://www.instagram.com/abhi_rai_1997?igsh=MTJjeG04eXNuaWkxMQ%3D%3D&utm_source=qr",    // leave "" to hide
+  linkedin:   "https://www.linkedin.com/in/abhishek-bachchan-ism ",  // leave "" to hide
 
   // ── QUICK STATS (right column of hero card) ───────────
-  dob:        "15 March 1995",
-  rashi:      "Mithun · Mrigashira",
-  height:     "5 ft 10 in",
-  bloodGroup: "B+",
+  dob:        "10 Jun 1997",
+  rashi:      "Tula",
+  height:     "6 ft",
+  bloodGroup: "O+",
   manglik:    "Non-Manglik",
   city:       "Bengaluru, Karnataka",
 
   // ── PERSONAL INFORMATION ──────────────────────────────
-  timeOfBirth:   "10:35 AM",
-  placeOfBirth:  "Jaipur, Rajasthan",
+  timeOfBirth:   "10:15 AM",
+  placeOfBirth:  "Darbhanga, Bihar",
   religion:      "Hindu",
-  caste:         "Brahmin · Sharma",
-  gotra:         "Kashyap",
-  diet:          "Vegetarian",
+  caste:         "Bhumihar",
+  gotra:         "Bharadwaj",
+  diet:          "Non-vegeterian",
   complexion:    "Fair",
-  maritalStatus: "Never Married",
-  languages:     "Hindi, English, Rajasthani",
-  nativePlace:   "Jaipur, Rajasthan",
+  maritalStatus: "Single",
+  languages:     "Hindi, English",
+  nativePlace:   "Kaimur, Bhabua, Bihar",
 
   // ── WORK EXPERIENCE ──────────────────────────────────
   jobs: [
-    {
-      title:   "Senior Software Engineer",
-      company: "Google India · Bengaluru",
-      from:    "2022",
-      to:      "Present",
-      desc:    "Leading backend infrastructure for Google Pay serving 10M+ daily users.",
-    },
-    {
-      title:   "Software Developer",
-      company: "Infosys · Pune",
-      from:    "2019",
-      to:      "2022",
-      desc:    "Full stack development for banking clients. Built real-time payment processing systems.",
-    },
-  ],
+  {
+    title:   "Lead Software Engineer",
+    company: "ITILITE Technologies Private Limited · Bengaluru",
+    from:    "2023",
+    to:      "Present",
+    desc:    "Leading backend development for flight services, building scalable systems for fast search, booking, and payments in the corporate travel domain for US and India markets.",
+  },
+  {
+    title:   "Software Engineer",
+    company: "Amazon India · Hyderabad",
+    from:    "2022",
+    to:      "2023",
+    desc:    "Worked in the Payments team, contributing to systems handling invoice payments and financial transactions for third-party partners.",
+  },
+  {
+    title:   "Software Engineer",
+    company: "Jaguar Land Rover India · Bangalore",
+    from:    "2020",
+    to:      "2022",
+    desc:    "Worked across multiple teams on infotainment systems, contributing to development and integration of automotive software solutions.",
+  },
+],
 
   // ── EDUCATION ─────────────────────────────────────────
   education: [
-    { year: "2019", degree: "B.Tech, Computer Science",  institution: "IIT Delhi",               percent: "8.7 CGPA" },
-    { year: "2015", degree: "Higher Secondary (12th)",   institution: "DPS R.K. Puram, Delhi",   percent: "94%" },
-    { year: "2013", degree: "Secondary (10th)",           institution: "DPS R.K. Puram, Delhi",   percent: "96%" },
+    { year: "2020", degree: "B.Tech, Computer Science",  institution: "IIT Dhanbad",               percent: "8.51 CGPA" },
+    { year: "2016", degree: "Higher Secondary (12th)",   institution: "Shivam International School",   percent: "92.4%" },
+    { year: "2013", degree: "Secondary (10th)",           institution: "DAV BSEB Patna",   percent: "10 CGPA" },
   ],
 
   // ── FAMILY — PARENTS & SIBLINGS ──────────────────────
