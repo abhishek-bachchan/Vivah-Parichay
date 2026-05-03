@@ -1478,20 +1478,21 @@ function loadFromConfig(C){
   }
 
   /* ── Load images from static/ — silently skip if file missing ── */
-  function loadImg(src, imgEl, ...hideEls){
+  function loadImg(src, imgEl, cb, ...hideEls){
     if(!src||!imgEl) return;
     imgEl.onload=()=>{
       imgEl.style.display='block';
       hideEls.forEach(el=>{ if(el) el.style.display='none'; });
+      if(cb) cb();
     };
     imgEl.onerror=()=>{}; // file not added yet — just show placeholder
     imgEl.src=src;
   }
 
   /* Main flip photos */
-  loadImg(C.photo1, document.getElementById('mp-img'),
+  loadImg(C.photo1, document.getElementById('mp-img'), syncBentoPhotos,
     document.getElementById('front-ico'), document.getElementById('front-hint'));
-  loadImg(C.photo2, document.getElementById('mp2-img'),
+  loadImg(C.photo2, document.getElementById('mp2-img'), syncBentoPhotos,
     document.getElementById('back-ico'),  document.getElementById('back-hint'));
 
   /* Family photos — load into fam-photo circles */
