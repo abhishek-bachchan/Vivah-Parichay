@@ -106,34 +106,34 @@ const BIODATA = {
   education: [
     { year: "2020", degree: "B.Tech, Computer Science",  institution: "IIT Dhanbad",               percent: "8.51 CGPA" },
     { year: "2016", degree: "Higher Secondary (12th)",   institution: "Shivam International School",   percent: "92.4%" },
-    { year: "2013", degree: "Secondary (10th)",           institution: "DAV BSEB Patna",   percent: "10 CGPA" },
+    { year: "2014", degree: "Secondary (10th)",           institution: "DAV BSEB Patna",   percent: "10 CGPA" },
   ],
 
   // ── FAMILY — PARENTS & SIBLINGS ──────────────────────
   // photo: path inside static/family/ — leave "" if no photo
   family: {
     father: {
-      name:  "Ramesh Sharma",
-      occ:   "Retd. IAS Officer",
-      city:  "Jaipur",
-      photo: "static/family/father.jpg",
+      name:  "Late Shri Akhileshwar Kumar",
+      occ:   "Farmer",
+      city:  "Kaimur, Bhabua, Bihar",
+      photo: "",
     },
     mother: {
-      name:  "Sunita Sharma",
+      name:  "Mira Kumari",
       occ:   "Homemaker",
-      city:  "Jaipur",
-      photo: "static/family/mother.jpg",
+      city:  "Patna",
+      photo: "",
     },
     brother: {
-      name:  "Rohit Sharma",
-      occ:   "CA · Married",
-      city:  "Jaipur",
-      photo: "static/family/brother.jpg",
-    },
-    sister: {
-      name:  "",   // leave name "" to hide this card entirely
+      name:  "",
       occ:   "",
       city:  "",
+      photo: "",
+    },
+    sister: {
+      name:  "Riya Rai",   // leave name "" to hide this card entirely
+      occ:   "Software Engineer",
+      city:  "Bengalure, Karnataka",
       photo: "",
     },
   },
@@ -141,52 +141,51 @@ const BIODATA = {
   // ── FAMILY — GRANDPARENTS ────────────────────────────
   grandparents: {
     dadaji: {
-      name:  "Late Shri Mohan Lal Sharma",
-      occ:   "Retd. Teacher",
-      photo: "static/family/dadaji.jpg",
+      name:  "Late Shri Bachchan Rai",
+      occ:   "Retd. Officer in Fishery Department",
+      photo: "",
     },
     nanaji: {
-      name:  "Shri Suresh Gupta",
-      occ:   "Businessman · Jaipur",
-      photo: "static/family/nanaji.jpg",
+      name:  "",
+      occ:   "",
+      photo: "",
     },
   },
 
   // ── FAMILY — UNCLES ──────────────────────────────────
   uncles: [
-    { name: "Sunil Sharma",  occ: "Engineer · Delhi",    photo: "static/family/uncle1.jpg" },
-    { name: "Anil Sharma",   occ: "Doctor · Mumbai",     photo: "static/family/uncle2.jpg" },
-    { name: "Vikas Sharma",  occ: "Businessman · Jaipur",photo: "static/family/uncle3.jpg" },
+    { name: "Ram Ekbal Rai",  occ: "LIC · Darbhanga",    photo: "" },
+    { name: "Ram Nagina Rai",   occ: "Farmer · Kaimur",     photo: "" },
+    { name: "Late Ashok Rai",  occ: "Farmer · Kaimur",photo: "" },
   ],
 
   // ── COUSINS (free text paragraph) ────────────────────
-  cousins: "4 cousins — 2 settled in Delhi in software and finance, 1 in Mumbai as a doctor, 1 in the USA pursuing higher studies. All well-settled and close-knit family.",
+  cousins: "We are a joint family, 2 cousin sister (Married), 1 cousin brother (Married in Bengaluru, Software), 1 cousin brother(Chennai, LNT), 1 Cousin Brother (Pursuing PHD from IIT), 1 cousin sister(In Deutsche Bank), 1 cousin sister and 1 cousin brother (studying in Varanasi)  ",
 
   // ── FAMILY BACKGROUND ────────────────────────────────
-  familyBackground: "Well-respected Brahmin family originally from Jaipur, Rajasthan. Joint family with strong values of education, discipline and culture. Father served in IAS for 30 years.",
+  familyBackground: "Well-respected Bhumihar family originally from Kaimur, Bhabua,  Bihar. Joint family with strong values of education, discipline and culture. All of us are self employed and earning well.",
 
   // ── ABOUT ME ─────────────────────────────────────────
-  aboutText: "I am a calm, family-oriented person who values both tradition and modern thinking. I enjoy travelling, reading, and playing cricket on weekends. Looking for a life partner who is kind, grounded, and shares a love for family.",
-
+  aboutText: "I am a calm, family-oriented person who values both tradition and modern thinking. I enjoy travelling, driving, exploring new places, and playing cricket on weekends. Travelling across the world is one of my dreams, and I love experiencing different cultures and cuisines. Looking for a life partner who is kind, grounded, and shares a love for family and adventures.",
   // ── HOBBIES — set true to highlight, false to leave unselected
   hobbies: {
     "Travel":      true,
     "Cricket":     true,
-    "Reading":     true,
-    "Music":       false,
-    "Cooking":     false,
+    "Reading":     false,
+    "Music":       true,
+    "Cooking":     true,
     "Photography": true,
     "Yoga":        false,
     "Movies":      true,
     "Fitness":     true,
-    "Gardening":   false,
+    "Gardening":   true,
     "Painting":    false,
   },
 
   // ── CONTACT ──────────────────────────────────────────
-  phone:         "+91 98765 43210",
-  email:         "rahul.sharma@gmail.com",
-  contactPerson: "Ramesh Sharma (Father) · +91 94100 XXXXX",
-  address:       "12, Shanti Nagar, Jaipur, Rajasthan — 302001",
+  phone:         "+91 9939392469",
+  email:         "abhbachchan10@gmail.com",
+  contactPerson: "Abhishek (myself)",
+  address:       "Mahadevapura, Bengaluru, Karnataka — 560048",
 
 };
