@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vivah Parichay</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+Devanagari:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="biodata.config.js"></script>
+<style>
+:root{
+  --gold:#c9933a;--gold2:#e8b96a;--gold3:#f5e6c8;--gold4:#7a5520;
+  --dark:#1a0e00;--dark2:#2d1a00;--dark3:#3d2400;
+  --cream:#fdf6e8;--cream2:#f9f0d8;--bg:#f0e8d8;
+  --card:#ffffff;--ink:#2a1800;--ink2:#5a3e1b;--ink3:#9a7545;
+  --border:rgba(201,147,58,0.18);--border2:rgba(201,147,58,0.45);
+  --sh:0 2px 20px rgba(42,24,0,0.08),0 1px 4px rgba(42,24,0,0.05);
+  --sh2:0 8px 40px rgba(42,24,0,0.14),0 2px 8px rgba(42,24,0,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cormorant Garamond',serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── PARTICLES CANVAS ── */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:2;}
+
+/* ── TOPBAR ── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(253,246,232,0.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;padding:0 20px;height:52px;}
+.topbar-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--ink);letter-spacing:1px;}
+.topbar-brand span{color:var(--gold);}
+.tbr{display:flex;gap:8px;align-items:center;}
+.lang-pill{display:flex;border:1px solid var(--border2);border-radius:20px;overflow:hidden;background:var(--card);}
+.lang-btn{padding:5px 13px;background:transparent;color:var(--ink2);border:none;cursor:pointer;font-size:12px;font-family:'Cormorant Garamond',serif;letter-spacing:1px;transition:all .2s;}
+.lang-btn.on{background:var(--dark);color:var(--gold2);font-weight:600;}
+.mode-btn{padding:6px 14px;border:1px solid var(--border2);border-radius:20px;background:var(--card);color:var(--ink2);font-size:12px;cursor:pointer;font-family:'Cormorant Garamond',serif;letter-spacing:1px;transition:all .2s;}
+.mode-btn.active{background:var(--dark2);color:var(--gold2);border-color:var(--dark2);}
+.print-btn{padding:6px 16px;background:var(--dark2);color:var(--gold2);border:none;border-radius:20px;cursor:pointer;font-size:12px;font-weight:500;font-family:'Cormorant Garamond',serif;letter-spacing:1px;transition:all .2s;}
+.print-btn:hover{background:var(--gold);color:var(--dark);}
+
+/* ── PAGE ── */
+.page{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:68px 14px 60px;display:flex;flex-direction:column;gap:14px;}
+
+/* ══════════════════════════════════
+   HERO CARD — parallax tilt
+══════════════════════════════════ */
+.hero-card{background:var(--dark2);border-radius:20px;box-shadow:var(--sh2);position:relative;transform-style:preserve-3d;transform:perspective(1000px) rotateX(0deg) rotateY(0deg);transition:transform .1s ease,box-shadow .3s ease;will-change:transform;cursor:default;}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);z-index:2;}
+.hero-inner{padding:24px 24px 20px;display:grid;grid-template-columns:190px 1fr 170px;gap:20px;align-items:start;}
+@media(max-width:640px){.hero-inner{grid-template-columns:1fr;gap:16px;}}
+
+.ganesh-strip{grid-column:1/-1;text-align:center;padding-bottom:16px;border-bottom:1px solid rgba(201,147,58,0.22);margin-bottom:2px;}
+.g-mantra{font-family:'Noto Sans Devanagari',sans-serif;font-size:15px;color:var(--gold);letter-spacing:4px;}
+.g-sub{font-size:10px;color:var(--gold2);letter-spacing:3px;margin-top:3px;opacity:.8;}
+
+/* photo col — flip card */
+.hero-photo-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.hero-flip{width:180px;height:220px;perspective:700px;cursor:pointer;flex-shrink:0;}
+.hero-flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(0.4,0,0.2,1);}
+.hero-flip.flipped .hero-flip-inner{transform:rotateY(180deg);}
+.hero-flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;overflow:hidden;border:2px solid var(--gold);}
+.hero-flip-front{background:var(--dark3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;}
+.hero-flip-front img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:10px;}
+.hero-flip-back{background:var(--dark2);transform:rotateY(180deg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;position:relative;border-color:var(--gold2);}
+.hero-flip-back img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:10px;}
+.upload-zone{position:absolute;bottom:0;left:0;right:0;height:38px;z-index:5;cursor:pointer;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);border-radius:0 0 10px 10px;}
+.upload-zone span{font-size:8px;letter-spacing:1px;color:var(--gold2);pointer-events:none;}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:6;}
+.flip-tap-hint{position:absolute;top:7px;right:7px;font-size:7px;letter-spacing:.5px;color:var(--gold2);background:rgba(0,0,0,0.5);padding:2px 6px;border-radius:4px;z-index:4;pointer-events:none;opacity:.85;}
+
+/* hero mid */
+.hero-mid{display:flex;flex-direction:column;gap:8px;justify-content:center;}
+.hero-name-in{background:transparent;border:none;outline:none;font-family:'Playfair Display',serif;font-size:28px;color:#fff8ee;width:100%;border-bottom:1px solid rgba(201,147,58,0.3);padding-bottom:5px;transition:border-color .2s;}
+.hero-name-in:focus{border-bottom-color:var(--gold);}
+.hero-name-in::placeholder{color:rgba(255,248,238,0.25);font-style:italic;}
+.hero-tag{font-size:10px;color:var(--gold2);letter-spacing:2px;}
+.soc-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px;}
+.soc-btn{display:flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;border:1px solid rgba(201,147,58,0.4);background:rgba(201,147,58,0.08);color:var(--gold2);cursor:pointer;text-decoration:none;font-size:11px;transition:all .2s;font-family:'Cormorant Garamond',serif;}
+.soc-btn:hover{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+.soc-btn svg{width:11px;height:11px;fill:currentColor;flex-shrink:0;}
+.soc-btn input{background:transparent;border:none;outline:none;font-size:11px;color:inherit;font-family:'Cormorant Garamond',serif;width:100px;}
+.soc-btn input::placeholder{opacity:.5;}
+
+/* hero stats */
+.hero-stats{display:flex;flex-direction:column;}
+.hstat{padding:6px 0;border-bottom:1px solid rgba(201,147,58,0.12);}
+.hstat:last-child{border-bottom:none;}
+.hstat-lbl{font-size:8px;letter-spacing:2px;color:var(--gold2);text-transform:uppercase;opacity:.7;margin-bottom:2px;}
+.hstat-lbl-hi{display:none;font-family:'Noto Sans Devanagari',sans-serif;font-size:9px;color:var(--gold2);margin-bottom:2px;opacity:.8;}
+.hstat input{background:transparent;border:none;outline:none;font-size:13px;color:#fff8ee;font-family:'Cormorant Garamond',serif;width:100%;border-bottom:1px dashed transparent;transition:.2s;}
+.hstat input:focus{border-bottom-color:var(--gold);}
+.hstat input::placeholder{color:rgba(255,248,238,0.28);font-style:italic;font-size:12px;}
+
+/* ══════════════════════════════════
+   ACCORDION CARDS
+══════════════════════════════════ */
+.acc-card{background:var(--card);border-radius:16px;border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .25s,border-color .25s;animation:fadeUp .35s ease both;}
+.acc-card:hover{box-shadow:var(--sh2);border-color:var(--border2);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.acc-card:nth-child(2){animation-delay:.05s;} .acc-card:nth-child(3){animation-delay:.1s;} .acc-card:nth-child(4){animation-delay:.15s;} .acc-card:nth-child(5){animation-delay:.2s;} .acc-card:nth-child(6){animation-delay:.25s;} .acc-card:nth-child(7){animation-delay:.3s;}
+
+.acc-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;user-select:none;transition:background .2s;}
+.acc-hd:hover{background:rgba(201,147,58,0.03);}
+.acc-hd-l{display:flex;align-items:center;gap:12px;}
+.acc-ico{width:40px;height:40px;border-radius:12px;background:var(--dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;position:relative;cursor:pointer;transition:border .2s;}
+.acc-ico svg{width:18px;height:18px;fill:none;stroke:var(--gold2);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s;}
+.acc-ico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:12px;}
+.acc-ico input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2;}
+.acc-ico:hover::after{content:'📷';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);font-size:14px;border-radius:12px;}
+.acc-ico.has-img svg{opacity:0;}
+.acc-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--ink);font-weight:400;}
+.acc-title-hi{display:none;font-family:'Noto Sans Devanagari',sans-serif;font-size:14px;color:var(--ink);}
+.acc-prev{font-size:11px;color:var(--ink3);margin-top:2px;}
+.acc-chev{width:26px;height:26px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:transform .3s,background .2s;flex-shrink:0;}
+.acc-chev svg{width:11px;height:11px;fill:none;stroke:var(--ink3);stroke-width:2;}
+.acc-card.open .acc-chev{transform:rotate(180deg);background:var(--dark);}
+.acc-card.open .acc-chev svg{stroke:var(--gold2);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(0.4,0,0.2,1);}
+.acc-card.open .acc-body{max-height:3000px;}
+.acc-body-in{padding:0 20px 20px;border-top:1px solid var(--border);}
+
+/* ── SECTION IMAGE SLOT ── */
+.sec-img-slot{width:100%;height:120px;border:1.5px dashed var(--border2);border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer;margin-bottom:14px;overflow:hidden;position:relative;transition:border-color .2s;}
+.sec-img-slot:hover{border-color:var(--gold);}
+.sec-img-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;border-radius:9px;}
+.sec-img-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2;}
+.sec-img-ico{font-size:20px;color:var(--ink3);}
+.sec-img-lbl{font-size:9px;color:var(--ink3);letter-spacing:1px;}
+
+/* ══════════════════════════════════
+   3D FLIP PHOTO GALLERY
+══════════════════════════════════ */
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;}
+@media(max-width:480px){.photo-gallery{grid-template-columns:repeat(2,1fr);}}
+
+.flip-card{aspect-ratio:3/4;perspective:800px;cursor:pointer;}
+.flip-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(0.4,0,0.2,1);}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;overflow:hidden;}
+.flip-front{background:var(--bg);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;transition:border-color .2s;position:relative;}
+.flip-front:hover{border-color:var(--gold);}
+.flip-front img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;}
+.flip-front input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2;}
+.flip-slot-ico{font-size:20px;color:var(--ink3);}
+.flip-slot-lbl{font-size:9px;color:var(--ink3);letter-spacing:1px;}
+.flip-hint{position:absolute;bottom:6px;right:8px;font-size:8px;color:var(--ink3);letter-spacing:.5px;z-index:3;background:rgba(253,246,232,0.8);padding:2px 5px;border-radius:4px;}
+
+.flip-back{background:var(--dark2);transform:rotateY(180deg);display:flex;flex-direction:column;justify-content:center;padding:14px;border:1px solid rgba(201,147,58,0.3);}
+.flip-back-mantra{font-family:'Noto Sans Devanagari',sans-serif;font-size:10px;color:var(--gold);letter-spacing:2px;text-align:center;margin-bottom:10px;opacity:.7;}
+.flip-back label{font-size:8px;letter-spacing:2px;color:var(--gold2);text-transform:uppercase;display:block;margin-bottom:3px;margin-top:8px;opacity:.7;}
+.flip-back label:first-of-type{margin-top:0;}
+.flip-back input,.flip-back textarea{background:rgba(201,147,58,0.08);border:1px solid rgba(201,147,58,0.25);border-radius:6px;font-size:11px;color:#fff8ee;font-family:'Cormorant Garamond',serif;outline:none;padding:4px 8px;width:100%;resize:none;}
+.flip-back input::placeholder,.flip-back textarea::placeholder{color:rgba(255,248,238,0.3);font-style:italic;}
+.flip-close{margin-top:10px;padding:5px;background:rgba(201,147,58,0.15);border:1px solid rgba(201,147,58,0.3);border-radius:6px;color:var(--gold2);font-size:10px;cursor:pointer;font-family:'Cormorant Garamond',serif;letter-spacing:1px;transition:all .2s;}
+.flip-close:hover{background:var(--gold);color:var(--dark);}
+
+/* ── FIELDS ── */
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+@media(max-width:480px){.f-grid{grid-template-columns:1fr;}}
+.f-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+@media(max-width:480px){.f-grid-3{grid-template-columns:1fr;}}
+.fd{padding:10px 0;border-bottom:1px solid var(--border);}
+.fd:last-child{border-bottom:none;}
+.fd-lbl{font-size:9px;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;margin-bottom:3px;}
+.fd-lbl-hi{display:none;font-family:'Noto Sans Devanagari',sans-serif;font-size:10px;color:var(--ink3);margin-bottom:3px;}
+.fd input,.fd textarea{background:transparent;border:none;outline:none;font-size:14px;color:var(--ink);font-family:'Cormorant Garamond',serif;width:100%;border-bottom:1.5px dashed transparent;transition:.2s;resize:none;}
+.fd input:focus,.fd textarea:focus{border-bottom-color:var(--gold);}
+.fd input::placeholder,.fd textarea::placeholder{color:var(--ink3);font-style:italic;opacity:.45;font-size:13px;}
+
+/* ── WORK ── */
+.job-entry{background:var(--bg);border-radius:10px;border:1px solid var(--border);padding:13px 15px;margin-bottom:10px;position:relative;}
+.job-top{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;}
+.job-ti{font-size:16px;font-weight:500;color:var(--ink);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;border-bottom:1.5px dashed transparent;transition:.2s;}
+.job-ti:focus{border-bottom-color:var(--gold);}
+.job-ti::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.job-co{font-size:12px;color:var(--ink2);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;margin-top:3px;}
+.job-co::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.job-yr{display:flex;gap:3px;align-items:center;font-size:11px;color:var(--ink3);white-space:nowrap;}
+.job-yr input{width:42px;background:transparent;border:none;outline:none;font-size:11px;color:var(--gold);font-family:'Cormorant Garamond',serif;text-align:center;}
+.job-desc{width:100%;background:transparent;border:none;outline:none;font-size:13px;color:var(--ink2);font-family:'Cormorant Garamond',serif;resize:none;margin-top:8px;line-height:1.6;border-bottom:1.5px dashed transparent;transition:.2s;}
+.job-desc:focus{border-bottom-color:var(--gold);}
+.job-desc::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.rm-btn{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--ink3);cursor:pointer;font-size:13px;opacity:.3;transition:.2s;}
+.rm-btn:hover{opacity:1;color:#a32d2d;}
+.add-btn{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:6px 16px;border:1px solid var(--border2);background:transparent;color:var(--gold);font-size:12px;letter-spacing:1px;cursor:pointer;font-family:'Cormorant Garamond',serif;border-radius:20px;transition:all .2s;}
+.add-btn:hover{background:var(--dark);color:var(--gold2);border-color:var(--dark);}
+
+/* ── EDU ── */
+.edu-row{display:grid;grid-template-columns:50px 1fr 58px;gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border);}
+.edu-row:last-of-type{border-bottom:none;}
+.edu-yr input{font-size:12px;color:var(--gold);font-weight:500;background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;}
+.edu-deg input{font-size:15px;font-weight:500;color:var(--ink);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;display:block;border-bottom:1.5px dashed transparent;transition:.2s;}
+.edu-deg input:focus{border-bottom-color:var(--gold);}
+.edu-deg input::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.edu-inst input{font-size:12px;color:var(--ink2);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;margin-top:3px;display:block;}
+.edu-inst input::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.edu-pct input{border:1px solid var(--border2);background:var(--bg);font-size:12px;color:var(--ink2);font-family:'Cormorant Garamond',serif;outline:none;padding:4px 6px;text-align:center;border-radius:6px;width:100%;}
+
+/* ══════════════════════════════════
+   STACKED FAMILY CARDS
+══════════════════════════════════ */
+.stack-wrap{position:relative;height:260px;margin-bottom:16px;}
+@media(max-width:480px){.stack-wrap{height:300px;}}
+.stack-card{position:absolute;left:0;right:0;background:var(--card);border-radius:14px;border:1px solid var(--border2);box-shadow:var(--sh);padding:16px 18px;cursor:pointer;transition:all .4s cubic-bezier(0.4,0,0.2,1);transform-origin:top center;}
+.stack-card.s0{z-index:4;top:0;transform:scale(1);opacity:1;}
+.stack-card.s1{z-index:3;top:12px;transform:scale(0.97);opacity:.9;}
+.stack-card.s2{z-index:2;top:22px;transform:scale(0.94);opacity:.75;}
+.stack-card.s3{z-index:1;top:30px;transform:scale(0.91);opacity:.6;}
+
+.stack-tab{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.stack-tab-lbl{font-size:9px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.stack-nav{display:flex;gap:6px;}
+.stack-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);transition:.2s;cursor:pointer;}
+.stack-dot.on{background:var(--gold);}
+.stack-next-btn{padding:4px 12px;border:1px solid var(--border2);border-radius:10px;background:transparent;color:var(--gold);font-size:10px;cursor:pointer;font-family:'Cormorant Garamond',serif;letter-spacing:1px;transition:.2s;}
+.stack-next-btn:hover{background:var(--gold);color:var(--dark);}
+
+.fam-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.fam-2col{grid-template-columns:1fr;}}
+.fam-photo{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border2);overflow:hidden;background:var(--bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.fam-photo img{width:100%;height:100%;object-fit:cover;display:none;}
+.fam-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.fam-mini{background:var(--bg);border-radius:8px;border:1px solid var(--border);padding:10px 12px;}
+.fam-role{font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:5px;}
+.fam-name input{font-size:14px;font-weight:500;color:var(--ink);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;border-bottom:1.5px dashed transparent;transition:.2s;display:block;}
+.fam-name input:focus{border-bottom-color:var(--gold);}
+.fam-name input::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.fam-det input{font-size:11px;color:var(--ink2);background:transparent;border:none;outline:none;font-family:'Cormorant Garamond',serif;width:100%;display:block;margin-top:3px;}
+.fam-det input::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+
+/* uncles stack - 3 col */
+.uncle-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+@media(max-width:480px){.uncle-grid{grid-template-columns:1fr;}}
+
+/* cousins textarea */
+.cousins-area textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--ink2);font-family:'Cormorant Garamond',serif;outline:none;resize:none;line-height:1.7;min-height:70px;padding:10px 12px;}
+.cousins-area textarea::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.cousins-area textarea:focus{border-color:var(--gold);}
+
+/* about */
+.about-ta textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--ink);font-family:'Cormorant Garamond',serif;outline:none;resize:none;line-height:1.8;min-height:90px;padding:12px 14px;}
+.about-ta textarea:focus{border-color:var(--gold);}
+.about-ta textarea::placeholder{color:var(--ink3);font-style:italic;opacity:.45;}
+.hb-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.hb{padding:4px 12px;border:1px solid var(--border2);border-radius:20px;font-size:12px;color:var(--ink2);cursor:pointer;transition:all .2s;background:var(--bg);font-family:'Cormorant Garamond',serif;}
+.hb.on{background:var(--dark);border-color:var(--gold);color:var(--gold2);}
+.hb-add{border:1.5px dashed var(--border2);background:transparent;padding:4px 12px;font-size:12px;color:var(--ink2);font-family:'Cormorant Garamond',serif;outline:none;border-radius:20px;width:120px;}
+.hb-add:focus{border-color:var(--gold);}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+@media(max-width:480px){.contact-grid{grid-template-columns:1fr;}}
+
+/* ══════════════════════════════════
+   BENTO MODE
+══════════════════════════════════ */
+.bento-view{display:none;position:relative;z-index:1;max-width:980px;margin:0 auto;padding:68px 14px 50px;}
+.bento-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:auto;gap:10px;}
+@media(max-width:700px){.bento-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:400px){.bento-grid{grid-template-columns:1fr;}}
+
+.bc{background:var(--card);border-radius:14px;border:1px solid var(--border);box-shadow:var(--sh);overflow:hidden;padding:14px;}
+.bc.dark{background:var(--dark2);border-color:rgba(201,147,58,0.3);}
+.bc.cream{background:var(--cream2);}
+.bc.gold-top{position:relative;}
+.bc.gold-top::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);}
+
+/* bento spans */
+.b-photo{grid-column:1/2;grid-row:1/3;}
+.b-name{grid-column:2/4;grid-row:1/2;}
+.b-stats{grid-column:4/5;grid-row:1/2;}
+.b-social{grid-column:2/3;grid-row:2/3;}
+.b-astro{grid-column:3/5;grid-row:2/3;}
+.b-work{grid-column:1/3;grid-row:3/4;}
+.b-edu{grid-column:3/5;grid-row:3/4;}
+.b-family{grid-column:1/3;grid-row:4/5;}
+.b-photos{grid-column:3/5;grid-row:4/5;}
+.b-about{grid-column:1/4;grid-row:5/6;}
+.b-contact{grid-column:4/5;grid-row:5/6;}
+@media(max-width:700px){.b-photo,.b-name,.b-stats,.b-social,.b-astro,.b-work,.b-edu,.b-family,.b-photos,.b-about,.b-contact{grid-column:auto;grid-row:auto;}}
+
+/* bento inner elements */
+.b-lbl{font-size:7px;letter-spacing:2px;color:var(--ink3);text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:.5px solid var(--border);}
+.b-lbl-dark{font-size:7px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:.5px solid rgba(201,147,58,0.25);}
+.b-val{font-size:13px;color:var(--ink);font-weight:500;}
+.b-val-dark{font-size:13px;color:#fff8ee;font-weight:500;}
+.b-sub{font-size:10px;color:var(--ink3);margin-top:1px;}
+.b-sub-dark{font-size:10px;color:var(--gold2);margin-top:1px;opacity:.7;}
+
+.bento-photo-box{width:100%;background:var(--dark3);border:1.5px solid var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink3);overflow:hidden;min-height:180px;}
+.bento-photo-box img{width:100%;height:100%;object-fit:cover;}
+
+.b-name-big{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);font-weight:400;line-height:1.1;}
+.b-name-sub{font-size:9px;letter-spacing:3px;color:var(--ink3);text-transform:uppercase;margin-top:4px;}
+.b-name-tag{display:inline-block;margin-top:8px;padding:3px 10px;background:var(--dark);color:var(--gold2);font-size:9px;letter-spacing:1px;border-radius:10px;}
+
+.b-stat-row{padding:5px 0;border-bottom:.5px solid var(--border);}
+.b-stat-row:last-child{border-bottom:none;}
+.b-stat-key{font-size:7px;letter-spacing:1.5px;color:var(--ink3);text-transform:uppercase;}
+.b-stat-val{font-size:12px;color:var(--ink);font-weight:500;margin-top:1px;}
+
+.b-soc-pill{display:flex;align-items:center;gap:5px;padding:4px 8px;background:rgba(201,147,58,0.1);border:.5px solid rgba(201,147,58,0.3);border-radius:14px;margin-bottom:5px;font-size:9px;color:var(--gold2);}
+.b-soc-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+.b-astro-g{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.b-astro-item{background:rgba(201,147,58,0.07);border-radius:6px;padding:5px 7px;}
+.b-astro-k{font-size:7px;letter-spacing:1px;color:var(--ink3);text-transform:uppercase;}
+.b-astro-v{font-size:11px;color:var(--ink);font-weight:500;margin-top:1px;}
+
+.b-work-entry{padding:5px 0;border-bottom:.5px solid var(--border);}
+.b-work-entry:last-child{border-bottom:none;}
+.b-work-title{font-size:12px;color:var(--ink);font-weight:500;}
+.b-work-co{font-size:10px;color:var(--ink3);}
+.b-work-yr{float:right;font-size:9px;color:var(--gold);}
+
+.b-edu-row{display:flex;gap:8px;padding:5px 0;border-bottom:.5px solid var(--border);}
+.b-edu-row:last-child{border-bottom:none;}
+.b-edu-yr{font-size:10px;color:var(--gold);font-weight:500;min-width:30px;}
+.b-edu-deg{font-size:11px;color:var(--ink);font-weight:500;}
+.b-edu-inst{font-size:9px;color:var(--ink3);}
+
+.b-fam-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.b-fam-card{background:var(--bg);border-radius:8px;padding:7px 9px;border:.5px solid var(--border);}
+.b-fam-role{font-size:7px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.b-fam-name{font-size:11px;color:var(--ink);font-weight:500;}
+.b-fam-occ{font-size:9px;color:var(--ink3);}
+
+.b-photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.b-photo-slot{aspect-ratio:3/4;background:var(--bg);border-radius:7px;border:.5px solid var(--border);overflow:hidden;}
+.b-photo-slot img{width:100%;height:100%;object-fit:cover;}
+
+.b-about-text{font-size:12px;color:var(--ink2);line-height:1.7;font-style:italic;}
+.b-hb-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
+.b-hb{padding:3px 9px;border:.5px solid var(--border2);border-radius:10px;font-size:9px;color:var(--ink2);}
+.b-hb.on{background:var(--dark);border-color:var(--gold);color:var(--gold2);}
+
+.b-contact-item{padding:5px 0;border-bottom:.5px solid rgba(201,147,58,0.2);}
+.b-contact-item:last-child{border-bottom:none;}
+.b-contact-k{font-size:7px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;}
+.b-contact-v{font-size:11px;color:var(--gold2);font-weight:500;margin-top:1px;}
+
+/* ── HINDI ── */
+body.hindi .en{display:none!important;}
+body.hindi .hi{display:block!important;}
+body.hindi .fd-lbl,.hstat-lbl{display:none;}
+body.hindi .fd-lbl-hi,.hstat-lbl-hi{display:block;}
+body.hindi .acc-title{display:none;}
+body.hindi .acc-title-hi{display:block;}
+
+/* ── PRINT ── */
+@media print{
+  .topbar,.add-btn,.rm-btn,.hb-add,.sec-img-slot input,.flip-close,.stack-next-btn,.stack-dot{display:none!important;}
+  body{background:white;}
+  .page{display:none!important;}
+  .bento-view{display:block!important;padding:0;max-width:100%;}
+  .bento-grid{gap:7px;}
+  .bc{border-radius:10px;box-shadow:none;}
+  input,textarea{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+
+<!-- GOLD PARTICLES -->
+<canvas id="particles"></canvas>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">Vivah <span>Parichay</span></div>
+  <div class="tbr">
+    <button class="mode-btn active" id="btn-edit" onclick="setMode('edit')">✎ Edit</button>
+    <button class="mode-btn" id="btn-bento" onclick="setMode('bento')">⊞ Bento</button>
+    <div class="lang-pill">
+      <button class="lang-btn on" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिं</button>
+    </div>
+    <button class="print-btn" onclick="doPrint()">⎙ PDF</button>
+    <button class="print-btn" style="background:var(--gold);color:var(--dark);" onclick="exportComplete()">⬇ Export</button>
+    <button class="print-btn" style="background:transparent;color:var(--ink3);border:1px solid var(--border);font-size:11px;" onclick="clearSavedData()" title="Clear all saved data">✕ Reset</button>
+  </div>
+</div>
+
+<!-- ══════════════ EDIT MODE ══════════════ -->
+<div class="page" id="edit-view">
+
+  <!-- HERO with parallax tilt -->
+  <div class="hero-card" id="hero-card">
+    <div class="hero-inner">
+      <div class="ganesh-strip">
+        <div class="g-mantra">॥ श्री गणेशाय नमः ॥</div>
+        <div class="g-sub en">Marriage Biodata · Groom (वर)</div>
+        <div class="g-sub hi" style="display:none;">विवाह परिचय · वर</div>
+      </div>
+      <div class="hero-photo-col">
+        <div class="hero-flip" id="hero-flip">
+          <div class="hero-flip-inner">
+            <div class="hero-flip-face hero-flip-front" onclick="flipHero(event)">
+              <span class="ph-ico" style="font-size:22px;color:var(--ink3);" id="front-ico">☷</span>
+              <span class="ph-hint" style="font-size:9px;color:var(--ink3);text-align:center;letter-spacing:1px;line-height:1.5;" id="front-hint">Tap bottom<br>to upload</span>
+              <img id="mp-img" alt=""/>
+              <span class="flip-tap-hint">tap → flip</span>
+              <div class="upload-zone" onclick="event.stopPropagation()">
+                <span>⬆ Upload Photo 1</span>
+                <input type="file" accept="image/*" onchange="loadHeroPhoto(this,'mp-img','front-ico','front-hint')"/>
+              </div>
+            </div>
+            <div class="hero-flip-face hero-flip-back" onclick="flipHero(event)">
+              <span class="ph-ico" style="font-size:20px;color:var(--gold);" id="back-ico">+</span>
+              <span class="ph-hint" style="font-size:9px;color:var(--gold2);text-align:center;letter-spacing:1px;line-height:1.5;" id="back-hint">Tap bottom<br>to upload</span>
+              <img id="mp2-img" alt=""/>
+              <span class="flip-tap-hint" style="color:var(--gold2);">← flip back</span>
+              <div class="upload-zone" onclick="event.stopPropagation()">
+                <span>⬆ Upload Photo 2</span>
+                <input type="file" accept="image/*" onchange="loadHeroPhoto(this,'mp2-img','back-ico','back-hint')"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:8px;color:var(--gold2);letter-spacing:1px;opacity:.6;text-align:center;margin-top:3px;">tap photo to flip</div>
+      </div>
+      <div class="hero-mid">
+        <input class="hero-name-in" id="hero-name" placeholder="Your Full Name" oninput="syncBento()"/>
+        <div class="hero-tag en">Groom · वर</div>
+        <div class="hero-tag hi" style="display:none;font-family:'Noto Sans Devanagari',sans-serif;">वर</div>
+        <div class="soc-row">
+          <a class="soc-btn" href="#" onclick="openSoc(event,'ig')">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <input id="ig" placeholder="instagram.com/you" onclick="event.stopPropagation()" oninput="syncBento()"/>
+          </a>
+          <a class="soc-btn" href="#" onclick="openSoc(event,'li')">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            <input id="li" placeholder="linkedin.com/in/you" onclick="event.stopPropagation()" oninput="syncBento()"/>
+          </a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-lbl en">Date of Birth</div><div class="hstat-lbl-hi">जन्म तिथि</div><input id="s-dob" placeholder="DD Month YYYY" oninput="syncBento()"/></div>
+        <div class="hstat"><div class="hstat-lbl en">Rashi · Nakshatra</div><div class="hstat-lbl-hi">राशि · नक्षत्र</div><input id="s-rashi" placeholder="Rashi · Nakshatra" oninput="syncBento()"/></div>
+        <div class="hstat"><div class="hstat-lbl en">Height</div><div class="hstat-lbl-hi">ऊंचाई</div><input id="s-height" placeholder="5 ft 10 in" oninput="syncBento()"/></div>
+        <div class="hstat"><div class="hstat-lbl en">Blood Group</div><div class="hstat-lbl-hi">रक्त समूह</div><input id="s-blood" placeholder="B+" oninput="syncBento()"/></div>
+        <div class="hstat"><div class="hstat-lbl en">Manglik</div><div class="hstat-lbl-hi">मांगलिक</div><input id="s-manglik" placeholder="Non-Manglik" oninput="syncBento()"/></div>
+        <div class="hstat"><div class="hstat-lbl en">Current City</div><div class="hstat-lbl-hi">शहर</div><input id="s-city" placeholder="City, State" oninput="syncBento()"/></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc-card" id="card-personal">
+    <div class="acc-hd" onclick="toggle('card-personal')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-personal" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <img id="ico-personal-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-personal')"/>
+        </div>
+        <div><div class="acc-title en">Personal Information</div><div class="acc-title-hi">व्यक्तिगत जानकारी</div><div class="acc-prev">DOB, Caste, Gotra, Diet, Languages…</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+      <div class="f-grid">
+        <div class="fd"><div class="fd-lbl en">Time of Birth</div><div class="fd-lbl-hi">जन्म समय</div><input id="p-tob" placeholder="e.g. 10:35 AM" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Place of Birth</div><div class="fd-lbl-hi">जन्म स्थान</div><input id="p-pob" placeholder="City, State" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Religion</div><div class="fd-lbl-hi">धर्म</div><input id="p-rel" placeholder="e.g. Hindu" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Caste / Sub-caste</div><div class="fd-lbl-hi">जाति / उपजाति</div><input id="p-caste" placeholder="Caste · Sub-caste" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Gotra</div><div class="fd-lbl-hi">गोत्र</div><input id="p-gotra" placeholder="e.g. Kashyap" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Diet</div><div class="fd-lbl-hi">आहार</div><input id="p-diet" placeholder="Vegetarian / Non-Vegetarian" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Complexion</div><div class="fd-lbl-hi">रंग-रूप</div><input id="p-complex" placeholder="Fair / Wheatish" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Marital Status</div><div class="fd-lbl-hi">वैवाहिक स्थिति</div><input id="p-marital" placeholder="Never Married" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Languages Known</div><div class="fd-lbl-hi">भाषाएँ</div><input id="p-lang" placeholder="Hindi, English…" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Native Place</div><div class="fd-lbl-hi">मूल स्थान</div><input id="p-native" placeholder="Village / City, State" oninput="syncBento()"/></div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="acc-card" id="card-work">
+    <div class="acc-hd" onclick="toggle('card-work')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-work" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          <img id="ico-work-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-work')"/>
+        </div>
+        <div><div class="acc-title en">Work Experience</div><div class="acc-title-hi">कार्य अनुभव</div><div class="acc-prev" id="prev-work">Add your job history</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+      <div id="jobs-c">
+        <div class="job-entry">
+          <div class="job-top"><div><input class="job-ti" placeholder="Job Title / Designation" oninput="updateWorkPrev(); syncBento()"/><input class="job-co" placeholder="Company Name · City" oninput="syncBento()"/></div><div class="job-yr"><input placeholder="2021"/>–<input placeholder="Present"/></div></div>
+          <textarea class="job-desc" rows="2" placeholder="Brief role description and key achievements…"></textarea>
+          <button class="rm-btn" onclick="this.closest('.job-entry').remove();updateWorkPrev();syncBento()">✕</button>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addJob()">＋ Add Experience</button>
+    </div></div>
+  </div>
+
+  <div class="acc-card" id="card-edu">
+    <div class="acc-hd" onclick="toggle('card-edu')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-edu" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <img id="ico-edu-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-edu')"/>
+        </div>
+        <div><div class="acc-title en">Educational Qualifications</div><div class="acc-title-hi">शैक्षणिक योग्यता</div><div class="acc-prev">Degrees, institutions, year…</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+      <div id="edu-c">
+        <div class="edu-row"><div class="edu-yr"><input placeholder="2018" oninput="syncBento()"/></div><div class="edu-deg"><input placeholder="Degree / Course" oninput="syncBento()"/><div class="edu-inst"><input placeholder="University · City" oninput="syncBento()"/></div></div><div class="edu-pct"><input placeholder="%"/></div></div>
+        <div class="edu-row"><div class="edu-yr"><input placeholder="2015" oninput="syncBento()"/></div><div class="edu-deg"><input placeholder="Higher Secondary (12th)" oninput="syncBento()"/><div class="edu-inst"><input placeholder="School · City" oninput="syncBento()"/></div></div><div class="edu-pct"><input placeholder="%"/></div></div>
+        <div class="edu-row"><div class="edu-yr"><input placeholder="2013" oninput="syncBento()"/></div><div class="edu-deg"><input placeholder="Secondary (10th)" oninput="syncBento()"/><div class="edu-inst"><input placeholder="School · City" oninput="syncBento()"/></div></div><div class="edu-pct"><input placeholder="%"/></div></div>
+      </div>
+      <button class="add-btn" onclick="addEdu()">＋ Add Qualification</button>
+    </div></div>
+  </div>
+
+  <!-- FAMILY — stacked cards -->
+  <div class="acc-card" id="card-family">
+    <div class="acc-hd" onclick="toggle('card-family')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-family" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          <img id="ico-family-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-family')"/>
+        </div>
+        <div><div class="acc-title en">Family Overview</div><div class="acc-title-hi">पारिवारिक विवरण</div><div class="acc-prev">Tap cards to browse family members</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+
+      <!-- STACK -->
+      <div class="stack-wrap" id="stack-wrap">
+
+        <!-- Card 0: Parents & Siblings -->
+        <div class="stack-card s0" id="scard-0">
+          <div class="stack-tab">
+            <span class="stack-tab-lbl">Parents & Siblings</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="stack-nav">
+                <div class="stack-dot on" onclick="goStack(0)"></div>
+                <div class="stack-dot" onclick="goStack(1)"></div>
+                <div class="stack-dot" onclick="goStack(2)"></div>
+                <div class="stack-dot" onclick="goStack(3)"></div>
+              </div>
+              <button class="stack-next-btn" onclick="goStack(1)">Next →</button>
+            </div>
+          </div>
+          <div class="fam-2col">
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-father"><img id="fam-img-father" alt=""/><span>👨</span></div>
+                <div class="fam-role en">Father · पिता</div>
+              </div>
+              <div class="fam-name"><input id="f-dad-name" placeholder="Father's Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-dad-occ" placeholder="Occupation · Company" oninput="syncBento()"/></div>
+              <div class="fam-det"><input placeholder="City"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-mother"><img id="fam-img-mother" alt=""/><span>👩</span></div>
+                <div class="fam-role en">Mother · माता</div>
+              </div>
+              <div class="fam-name"><input id="f-mom-name" placeholder="Mother's Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-mom-occ" placeholder="Occupation / Homemaker" oninput="syncBento()"/></div>
+              <div class="fam-det"><input placeholder="City"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-brother"><img id="fam-img-brother" alt=""/><span>👨</span></div>
+                <div class="fam-role en">Brother(s) · भाई</div>
+              </div>
+              <div class="fam-name"><input id="f-bro-name" placeholder="Name(s)" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-bro-occ" placeholder="Occupation · Marital Status" oninput="syncBento()"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-sister"><img id="fam-img-sister" alt=""/><span>👩</span></div>
+                <div class="fam-role en">Sister(s) · बहन</div>
+              </div>
+              <div class="fam-name"><input id="f-sis-name" placeholder="Name(s)" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-sis-occ" placeholder="Occupation · Marital Status" oninput="syncBento()"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 1: Grandfather -->
+        <div class="stack-card s1" id="scard-1">
+          <div class="stack-tab">
+            <span class="stack-tab-lbl">Grandfather · दादा जी / नाना जी</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="stack-nav">
+                <div class="stack-dot" onclick="goStack(0)"></div>
+                <div class="stack-dot on" onclick="goStack(1)"></div>
+                <div class="stack-dot" onclick="goStack(2)"></div>
+                <div class="stack-dot" onclick="goStack(3)"></div>
+              </div>
+              <button class="stack-next-btn" onclick="goStack(2)">Next →</button>
+            </div>
+          </div>
+          <div class="fam-2col" style="grid-template-columns:1fr 1fr;">
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-dadaji"><img id="fam-img-dadaji" alt=""/><span>👴</span></div>
+                <div class="fam-role en">Paternal · दादा जी</div>
+              </div>
+              <div class="fam-name"><input id="f-gdad1" placeholder="Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-gdad1-occ" placeholder="Occupation / Retd." oninput="syncBento()"/></div>
+              <div class="fam-det"><input placeholder="Native Place"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-nanaji"><img id="fam-img-nanaji" alt=""/><span>👴</span></div>
+                <div class="fam-role en">Maternal · नाना जी</div>
+              </div>
+              <div class="fam-name"><input id="f-gdad2" placeholder="Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-gdad2-occ" placeholder="Occupation / Retd." oninput="syncBento()"/></div>
+              <div class="fam-det"><input placeholder="Native Place"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Uncles -->
+        <div class="stack-card s2" id="scard-2">
+          <div class="stack-tab">
+            <span class="stack-tab-lbl">Uncles · चाचा जी</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="stack-nav">
+                <div class="stack-dot" onclick="goStack(0)"></div>
+                <div class="stack-dot" onclick="goStack(1)"></div>
+                <div class="stack-dot on" onclick="goStack(2)"></div>
+                <div class="stack-dot" onclick="goStack(3)"></div>
+              </div>
+              <button class="stack-next-btn" onclick="goStack(3)">Next →</button>
+            </div>
+          </div>
+          <div class="uncle-grid">
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-uncle1"><img id="fam-img-uncle1" alt=""/><span>👨</span></div>
+                <div class="fam-role en">Uncle 1 · चाचा</div>
+              </div>
+              <div class="fam-name"><input id="f-unc1" placeholder="Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-unc1-occ" placeholder="Occupation" oninput="syncBento()"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-uncle2"><img id="fam-img-uncle2" alt=""/><span>👨</span></div>
+                <div class="fam-role en">Uncle 2 · चाचा</div>
+              </div>
+              <div class="fam-name"><input id="f-unc2" placeholder="Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-unc2-occ" placeholder="Occupation" oninput="syncBento()"/></div>
+            </div>
+            <div class="fam-mini">
+              <div class="fam-header">
+                <div class="fam-photo" id="fam-photo-uncle3"><img id="fam-img-uncle3" alt=""/><span>👨</span></div>
+                <div class="fam-role en">Uncle 3 · चाचा</div>
+              </div>
+              <div class="fam-name"><input id="f-unc3" placeholder="Name" oninput="syncBento()"/></div>
+              <div class="fam-det"><input id="f-unc3-occ" placeholder="Occupation" oninput="syncBento()"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Cousins -->
+        <div class="stack-card s3" id="scard-3">
+          <div class="stack-tab">
+            <span class="stack-tab-lbl">Cousins · चचेरे भाई-बहन</span>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="stack-nav">
+                <div class="stack-dot" onclick="goStack(0)"></div>
+                <div class="stack-dot" onclick="goStack(1)"></div>
+                <div class="stack-dot" onclick="goStack(2)"></div>
+                <div class="stack-dot on" onclick="goStack(3)"></div>
+              </div>
+              <button class="stack-next-btn" onclick="goStack(0)">↩ Start</button>
+            </div>
+          </div>
+          <div class="cousins-area">
+            <textarea id="f-cousins" rows="4" placeholder="Brief about cousins — e.g. 5 cousins, mostly in engineering and medicine, settled across Pune, Delhi and Bengaluru. All well-settled and supportive family…" oninput="syncBento()"></textarea>
+          </div>
+        </div>
+
+      </div><!-- stack-wrap -->
+
+      <!-- Family background note -->
+      <div style="margin-top:8px;">
+        <div class="fd-lbl en" style="margin-bottom:6px;">Family Background & Values</div>
+        <div class="fd-lbl-hi" style="margin-bottom:6px;">पारिवारिक पृष्ठभूमि</div>
+        <textarea id="f-bg" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--ink2);font-family:'Cormorant Garamond',serif;outline:none;resize:none;line-height:1.7;min-height:52px;padding:10px 12px;" placeholder="Family background, native place, values…" oninput="syncBento()"></textarea>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="acc-card" id="card-about">
+    <div class="acc-hd" onclick="toggle('card-about')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-about" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <img id="ico-about-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-about')"/>
+        </div>
+        <div><div class="acc-title en">About Me & Hobbies</div><div class="acc-title-hi">मेरे बारे में</div><div class="acc-prev">Personal note, interests, hobbies…</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+      <div class="about-ta"><textarea id="about-txt" rows="4" placeholder="Write a short note about yourself — your personality, values, what you enjoy, and what you're looking for in a life partner…" oninput="syncBento()"></textarea></div>
+      <div style="margin-top:14px;">
+        <div class="fd-lbl en" style="margin-bottom:8px;">Hobbies & Interests</div>
+        <div class="fd-lbl-hi" style="margin-bottom:8px;">शौक एवं रुचियाँ</div>
+        <div class="hb-row" id="hb-row">
+          <span class="hb" onclick="toggleHb(this)">Travel</span><span class="hb" onclick="toggleHb(this)">Music</span><span class="hb" onclick="toggleHb(this)">Reading</span><span class="hb" onclick="toggleHb(this)">Cooking</span><span class="hb" onclick="toggleHb(this)">Sports</span><span class="hb" onclick="toggleHb(this)">Photography</span><span class="hb" onclick="toggleHb(this)">Yoga</span><span class="hb" onclick="toggleHb(this)">Movies</span><span class="hb" onclick="toggleHb(this)">Fitness</span><span class="hb" onclick="toggleHb(this)">Gardening</span><span class="hb" onclick="toggleHb(this)">Cricket</span><span class="hb" onclick="toggleHb(this)">Painting</span>
+          <input class="hb-add" placeholder="+ Add…" onkeydown="addHobby(event,this)"/>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="acc-card" id="card-contact">
+    <div class="acc-hd" onclick="toggle('card-contact')">
+      <div class="acc-hd-l">
+        <div class="acc-ico" id="ico-contact" title="Click to upload section icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          <img id="ico-contact-img" alt=""/>
+          <input type="file" accept="image/*" onclick="event.stopPropagation()" onchange="loadIcoImg(this,'ico-contact')"/>
+        </div>
+        <div><div class="acc-title en">Contact Details</div><div class="acc-title-hi">संपर्क विवरण</div><div class="acc-prev">Phone, email, address…</div></div>
+      </div>
+      <div class="acc-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </div>
+    <div class="acc-body"><div class="acc-body-in">
+      <div class="contact-grid">
+        <div class="fd"><div class="fd-lbl en">Mobile / WhatsApp</div><div class="fd-lbl-hi">मोबाइल</div><input id="c-phone" placeholder="+91 XXXXX XXXXX" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Email</div><div class="fd-lbl-hi">ईमेल</div><input id="c-email" placeholder="your@email.com" oninput="syncBento()"/></div>
+        <div class="fd"><div class="fd-lbl en">Contact Person</div><div class="fd-lbl-hi">संपर्क व्यक्ति</div><input id="c-person" placeholder="Name · Number" oninput="syncBento()"/></div>
+      </div>
+      <div class="fd"><div class="fd-lbl en">Address</div><div class="fd-lbl-hi">पता</div><input id="c-addr" placeholder="Full Address, City, PIN" style="width:100%;" oninput="syncBento()"/></div>
+    </div></div>
+  </div>
+
+</div><!-- edit-view -->
+
+<!-- ══════════════ BENTO MODE ══════════════ -->
+<div class="bento-view" id="bento-view">
+  <div class="bento-grid">
+
+    <!-- Photo tall 1x2 -->
+    <div class="bc dark b-photo" style="padding:0;min-height:260px;">
+      <div class="bento-photo-box" id="b-photo-box" style="min-height:260px;">
+        <span style="font-size:11px;color:var(--ink3);">Main Photo</span>
+      </div>
+    </div>
+
+    <!-- Name 2x1 -->
+    <div class="bc cream b-name gold-top">
+      <div style="font-family:'Noto Sans Devanagari',sans-serif;font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:6px;">॥ श्री गणेशाय नमः ॥</div>
+      <div class="b-name-big" id="b-name">Your Full Name</div>
+      <div class="b-name-sub" id="b-city">City · State</div>
+      <span class="b-name-tag en">Groom · वर</span>
+      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;" id="b-soc-row">
+        <div class="b-soc-pill" id="b-ig"><div class="b-soc-dot"></div><span id="b-ig-txt">Instagram</span></div>
+        <div class="b-soc-pill" id="b-li"><div class="b-soc-dot"></div><span id="b-li-txt">LinkedIn</span></div>
+      </div>
+    </div>
+
+    <!-- Quick stats 1x1 -->
+    <div class="bc b-stats">
+      <div class="b-lbl">Quick Info</div>
+      <div class="b-stat-row"><div class="b-stat-key">Date of Birth</div><div class="b-stat-val" id="b-dob">—</div></div>
+      <div class="b-stat-row"><div class="b-stat-key">Height</div><div class="b-stat-val" id="b-height">—</div></div>
+      <div class="b-stat-row"><div class="b-stat-key">Blood Group</div><div class="b-stat-val" id="b-blood">—</div></div>
+      <div class="b-stat-row"><div class="b-stat-key">Manglik</div><div class="b-stat-val" id="b-manglik">—</div></div>
+    </div>
+
+    <!-- Personal details 2x1 -->
+    <div class="bc b-astro">
+      <div class="b-lbl">Personal · Caste · Astrology</div>
+      <div class="b-astro-g">
+        <div class="b-astro-item"><div class="b-astro-k">Rashi · Nakshatra</div><div class="b-astro-v" id="b-rashi">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Caste · Gotra</div><div class="b-astro-v" id="b-caste">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Religion</div><div class="b-astro-v" id="b-rel">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Diet</div><div class="b-astro-v" id="b-diet">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Complexion</div><div class="b-astro-v" id="b-complex">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Languages</div><div class="b-astro-v" id="b-lang">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Marital Status</div><div class="b-astro-v" id="b-marital">—</div></div>
+        <div class="b-astro-item"><div class="b-astro-k">Native Place</div><div class="b-astro-v" id="b-native">—</div></div>
+      </div>
+    </div>
+
+    <!-- Work 2x1 -->
+    <div class="bc b-work">
+      <div class="b-lbl">Work Experience</div>
+      <div id="b-work-entries"><div class="b-work-entry"><div class="b-work-title">Add your experience above</div></div></div>
+    </div>
+
+    <!-- Education 2x1 -->
+    <div class="bc b-edu">
+      <div class="b-lbl">Education</div>
+      <div id="b-edu-entries"><div class="b-edu-row"><div class="b-edu-yr">—</div><div><div class="b-edu-deg">Add qualifications above</div></div></div></div>
+    </div>
+
+    <!-- Family 2x1 — parents + siblings + extended -->
+    <div class="bc b-family">
+      <div class="b-lbl">Family Overview</div>
+      <div class="b-fam-g">
+        <div class="b-fam-card"><div class="b-fam-role">Father</div><div class="b-fam-name" id="b-dad-name">—</div><div class="b-fam-occ" id="b-dad-occ">—</div></div>
+        <div class="b-fam-card"><div class="b-fam-role">Mother</div><div class="b-fam-name" id="b-mom-name">—</div><div class="b-fam-occ" id="b-mom-occ">—</div></div>
+        <div class="b-fam-card"><div class="b-fam-role">Brother(s)</div><div class="b-fam-name" id="b-bro-name">—</div><div class="b-fam-occ" id="b-bro-occ">—</div></div>
+        <div class="b-fam-card"><div class="b-fam-role">Sister(s)</div><div class="b-fam-name" id="b-sis-name">—</div><div class="b-fam-occ" id="b-sis-occ">—</div></div>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);">
+        <div class="b-lbl" style="margin-bottom:5px;">Extended Family</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;" id="b-ext-fam">
+          <div class="b-fam-card"><div class="b-fam-role">Dada Ji</div><div class="b-fam-name" id="b-gdad1">—</div><div class="b-fam-occ" id="b-gdad1-occ">—</div></div>
+          <div class="b-fam-card"><div class="b-fam-role">Nana Ji</div><div class="b-fam-name" id="b-gdad2">—</div><div class="b-fam-occ" id="b-gdad2-occ">—</div></div>
+          <div class="b-fam-card"><div class="b-fam-role">Uncle 1</div><div class="b-fam-name" id="b-unc1">—</div><div class="b-fam-occ" id="b-unc1-occ">—</div></div>
+          <div class="b-fam-card"><div class="b-fam-role">Uncle 2</div><div class="b-fam-name" id="b-unc2">—</div><div class="b-fam-occ" id="b-unc2-occ">—</div></div>
+          <div class="b-fam-card" style="grid-column:1/-1;"><div class="b-fam-role">Uncle 3</div><div class="b-fam-name" id="b-unc3">—</div><div class="b-fam-occ" id="b-unc3-occ">—</div></div>
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:var(--ink2);font-style:italic;line-height:1.5;" id="b-cousins"></div>
+      </div>
+    </div>
+
+    <!-- Photo 2 slot 2x1 -->
+    <div class="bc b-photos">
+      <div class="b-lbl">Photos</div>
+      <div class="b-photo-grid">
+        <div class="b-photo-slot" id="b-photo1" style="background:var(--bg);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img id="b-p1-img" alt="" style="width:100%;height:100%;object-fit:cover;display:none;"/><span style="font-size:10px;color:var(--ink3);" id="b-p1-ph">Photo 1</span></div>
+        <div class="b-photo-slot" id="b-photo2" style="background:var(--bg);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;"><img id="b-p2-img" alt="" style="width:100%;height:100%;object-fit:cover;display:none;"/><span style="font-size:10px;color:var(--ink3);" id="b-p2-ph">Photo 2</span></div>
+      </div>
+      <!-- family bg note -->
+      <div style="margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);">
+        <div class="b-lbl" style="margin-bottom:4px;">Family Background</div>
+        <div style="font-size:11px;color:var(--ink2);font-style:italic;line-height:1.6;" id="b-fam-bg">—</div>
+      </div>
+    </div>
+
+    <!-- About 3x1 -->
+    <div class="bc cream b-about">
+      <div class="b-lbl">About Me</div>
+      <div class="b-about-text" id="b-about">Fill in the About Me section above…</div>
+      <div class="b-hb-row" id="b-hb-row"></div>
+    </div>
+
+    <!-- Contact 1x1 -->
+    <div class="bc dark b-contact">
+      <div class="b-lbl-dark">Contact</div>
+      <div class="b-contact-item"><div class="b-contact-k">Mobile</div><div class="b-contact-v" id="b-phone">—</div></div>
+      <div class="b-contact-item"><div class="b-contact-k">Email</div><div class="b-contact-v" id="b-email">—</div></div>
+      <div class="b-contact-item"><div class="b-contact-k">Contact</div><div class="b-contact-v" id="b-person">—</div></div>
+      <div class="b-contact-item"><div class="b-contact-k">Address</div><div class="b-contact-v" id="b-addr">—</div></div>
+      <div class="b-contact-item"><div class="b-contact-k">Time of Birth</div><div class="b-contact-v" id="b-tob">—</div></div>
+      <div class="b-contact-item"><div class="b-contact-k">Place of Birth</div><div class="b-contact-v" id="b-pob">—</div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ══ HERO FLIP ══ */
+function flipHero(e){
+  if(e.target.closest('.upload-zone'))return;
+  document.getElementById('hero-flip').classList.toggle('flipped');
+}
+function loadHeroPhoto(input,imgId,icoId,hintId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById(imgId);
+    img.src=e.target.result;img.style.display='block';
+    const ico=document.getElementById(icoId);
+    const hint=document.getElementById(hintId);
+    if(ico)ico.style.display='none';
+    if(hint)hint.style.display='none';
+    syncBentoPhotos();
+    scheduleSave();
+  };
+  r.readAsDataURL(f);
+}
+
+/* ══ ICON IMAGE UPLOAD ══ */
+function loadIcoImg(input,icoId){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const ico=document.getElementById(icoId);
+    const img=document.getElementById(icoId+'-img');
+    img.src=e.target.result;img.style.display='block';
+    ico.classList.add('has-img');
+    scheduleSave();
+  };
+  r.readAsDataURL(f);
+}
+
+/* ══ PARTICLES ══ */
+(function(){
+  const c=document.getElementById('particles');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<50;i++) pts.push({
+    x:Math.random()*window.innerWidth,
+    y:Math.random()*window.innerHeight,
+    r:Math.random()*1.8+0.6,
+    s:Math.random()*0.4+0.15,
+    o:0.5,
+    hue:Math.random()*20+25,
+    drift:Math.random()*0.3-0.15,
+    wobble:Math.random()*Math.PI*2,
+    wobbleSpeed:Math.random()*0.018+0.004
+  });
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.y-=p.s;
+      p.wobble+=p.wobbleSpeed;
+      p.x+=Math.sin(p.wobble)*0.35+p.drift;
+      if(p.y<-10){p.y=H+10;p.x=Math.random()*W;}
+      if(p.x<-10)p.x=W+10;
+      if(p.x>W+10)p.x=-10;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${p.hue},72%,52%,0.5)`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ══ PARALLAX TILT ══ */
+(function(){
+  const card=document.getElementById('hero-card');
+  let isTouch=false;
+  card.addEventListener('touchstart',()=>isTouch=true,{passive:true});
+  card.addEventListener('mousemove',e=>{
+    if(isTouch)return;
+    const r=card.getBoundingClientRect();
+    const cx=r.left+r.width/2,cy=r.top+r.height/2;
+    const dx=(e.clientX-cx)/r.width,dy=(e.clientY-cy)/r.height;
+    card.style.transform=`perspective(1000px) rotateY(${dx*10}deg) rotateX(${-dy*7}deg) scale(1.01)`;
+    card.style.boxShadow=`${-dx*18}px ${-dy*12}px 50px rgba(42,24,0,0.18), 0 4px 20px rgba(42,24,0,0.1)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+    card.style.boxShadow='';
+  });
+})();
+
+/* ══ FLIP CARDS — removed, using hero flip instead ══ */
+
+/* ══ STACKED CARDS ══ */
+let stackIdx=0;
+const STACK_CLASSES=['s0','s1','s2','s3'];
+function goStack(to){
+  stackIdx=to;
+  for(let i=0;i<4;i++){
+    const card=document.getElementById('scard-'+i);
+    card.className='stack-card';
+    const pos=(i-to+4)%4;
+    card.classList.add(STACK_CLASSES[pos]);
+  }
+  // update stack height based on active card
+  const activeCard=document.getElementById('scard-'+to);
+  const wrap=document.getElementById('stack-wrap');
+  setTimeout(()=>{ wrap.style.height=(activeCard.offsetHeight+20)+'px'; },10);
+}
+window.addEventListener('load',()=>goStack(0));
+window.addEventListener('resize',()=>goStack(stackIdx));
+
+/* ══ ACCORDION ══ */
+function toggle(id){document.getElementById(id).classList.toggle('open');}
+
+/* ══ LANG ══ */
+function setLang(l){
+  const hi=l==='hi';
+  document.body.classList.toggle('hindi',hi);
+  document.getElementById('btn-en').classList.toggle('on',!hi);
+  document.getElementById('btn-hi').classList.toggle('on',hi);
+  document.querySelectorAll('.en').forEach(e=>e.style.display=hi?'none':'');
+  document.querySelectorAll('.hi').forEach(e=>e.style.display=hi?'':'none');
+}
+
+/* ══ MODE ══ */
+function setMode(m){
+  const isEdit=m==='edit';
+  document.getElementById('edit-view').style.display=isEdit?'flex':'none';
+  document.getElementById('bento-view').style.display=isEdit?'none':'block';
+  document.getElementById('btn-edit').classList.toggle('active',isEdit);
+  document.getElementById('btn-bento').classList.toggle('active',!isEdit);
+  if(!isEdit)syncBento();
+}
+
+/* ══ BENTO SYNC — full coverage ══ */
+function g(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+function sb(id,val){const el=document.getElementById(id);if(el)el.textContent=val||'—';}
+
+function syncBento(){
+  sb('b-name',g('hero-name'));
+  sb('b-city',g('s-city'));
+  sb('b-dob',g('s-dob'));
+  sb('b-height',g('s-height'));
+  sb('b-blood',g('s-blood'));
+  sb('b-manglik',g('s-manglik'));
+  sb('b-rashi',g('s-rashi'));
+  sb('b-caste',[g('p-caste'),g('p-gotra')].filter(Boolean).join(' · ')||'—');
+  sb('b-rel',g('p-rel'));
+  sb('b-diet',g('p-diet'));
+  sb('b-complex',g('p-complex'));
+  sb('b-lang',g('p-lang'));
+  sb('b-marital',g('p-marital'));
+  sb('b-native',g('p-native'));
+  sb('b-tob',g('p-tob'));
+  sb('b-pob',g('p-pob'));
+  sb('b-about',g('about-txt')||'Fill in the About Me section above…');
+  sb('b-phone',g('c-phone'));
+  sb('b-email',g('c-email'));
+  sb('b-person',g('c-person'));
+  sb('b-addr',g('c-addr'));
+  const igTxt=document.getElementById('b-ig-txt');
+  const liTxt=document.getElementById('b-li-txt');
+  if(igTxt)igTxt.textContent=g('ig')||'Instagram';
+  if(liTxt)liTxt.textContent=g('li')||'LinkedIn';
+  sb('b-dad-name',g('f-dad-name'));sb('b-dad-occ',g('f-dad-occ'));
+  sb('b-mom-name',g('f-mom-name'));sb('b-mom-occ',g('f-mom-occ'));
+  sb('b-bro-name',g('f-bro-name'));sb('b-bro-occ',g('f-bro-occ'));
+  sb('b-sis-name',g('f-sis-name'));sb('b-sis-occ',g('f-sis-occ'));
+  sb('b-gdad1',g('f-gdad1'));sb('b-gdad1-occ',g('f-gdad1-occ'));
+  sb('b-gdad2',g('f-gdad2'));sb('b-gdad2-occ',g('f-gdad2-occ'));
+  sb('b-unc1',g('f-unc1'));sb('b-unc1-occ',g('f-unc1-occ'));
+  sb('b-unc2',g('f-unc2'));sb('b-unc2-occ',g('f-unc2-occ'));
+  sb('b-unc3',g('f-unc3'));sb('b-unc3-occ',g('f-unc3-occ'));
+  sb('b-cousins',g('f-cousins'));
+  sb('b-fam-bg',g('f-bg'));
+  syncBentoWork();syncBentoEdu();syncBentoHobbies();syncBentoPhotos();
+}
+
+function syncBentoWork(){
+  const entries=document.querySelectorAll('#jobs-c .job-entry');
+  const cont=document.getElementById('b-work-entries');if(!cont)return;
+  if(!entries.length){cont.innerHTML='<div class="b-work-entry"><div class="b-work-title">Add your experience above</div></div>';return;}
+  cont.innerHTML='';
+  entries.forEach(e=>{
+    const ti=e.querySelector('.job-ti').value.trim();
+    const co=e.querySelector('.job-co').value.trim();
+    const yrs=[...e.querySelectorAll('.job-yr input')].map(i=>i.value.trim()).filter(Boolean).join('–');
+    if(!ti&&!co)return;
+    const d=document.createElement('div');d.className='b-work-entry';
+    d.innerHTML=`${yrs?`<span class="b-work-yr">${yrs}</span>`:''}<div class="b-work-title">${ti||'—'}</div><div class="b-work-co">${co}</div>`;
+    cont.appendChild(d);
+  });
+}
+function syncBentoEdu(){
+  const rows=document.querySelectorAll('#edu-c .edu-row');
+  const cont=document.getElementById('b-edu-entries');if(!cont)return;
+  cont.innerHTML='';
+  rows.forEach(r=>{
+    const yr=r.querySelector('.edu-yr input').value.trim();
+    const deg=r.querySelector('.edu-deg input').value.trim();
+    const inst=r.querySelector('.edu-inst input').value.trim();
+    if(!deg)return;
+    const d=document.createElement('div');d.className='b-edu-row';
+    d.innerHTML=`<div class="b-edu-yr">${yr||'—'}</div><div><div class="b-edu-deg">${deg}</div><div class="b-edu-inst">${inst}</div></div>`;
+    cont.appendChild(d);
+  });
+  if(!cont.children.length)cont.innerHTML='<div class="b-edu-row"><div class="b-edu-yr">—</div><div><div class="b-edu-deg">Add qualifications above</div></div></div>';
+}
+function syncBentoHobbies(){
+  const row=document.getElementById('b-hb-row');if(!row)return;
+  row.innerHTML='';
+  document.querySelectorAll('#hb-row .hb.on').forEach(h=>{
+    const t=document.createElement('span');t.className='b-hb on';t.textContent=h.textContent;row.appendChild(t);
+  });
+}
+function syncBentoPhotos(){
+  const mp=document.getElementById('mp-img');
+  const mp2=document.getElementById('mp2-img');
+  const b1=document.getElementById('b-p1-img');const bp1=document.getElementById('b-p1-ph');
+  const b2=document.getElementById('b-p2-img');const bp2=document.getElementById('b-p2-ph');
+  const bpBox=document.getElementById('b-photo-box');
+  if(mp&&mp.src&&mp.style.display!=='none'){
+    b1.src=mp.src;b1.style.display='block';if(bp1)bp1.style.display='none';
+    bpBox.innerHTML='';const i=document.createElement('img');i.src=mp.src;i.style.cssText='width:100%;height:100%;object-fit:cover;';bpBox.appendChild(i);
+  }
+  if(mp2&&mp2.src&&mp2.style.display!=='none'){b2.src=mp2.src;b2.style.display='block';if(bp2)bp2.style.display='none';}
+}
+
+/* ══ EXPORT — bento as self-contained HTML ══ */
+async function exportComplete(){
+
+  /* 1. Sync all data into bento first */
+  syncBento();
+  await new Promise(r=>setTimeout(r,200));
+
+  /* 2. Convert every <img> inside bento-view to inline base64 */
+  async function imgToBase64(img){
+    if(!img||!img.src||img.style.display==='none') return;
+    if(img.src.startsWith('data:')) return; // already base64
+    try{
+      const res=await fetch(img.src);
+      const blob=await res.blob();
+      return new Promise(resolve=>{
+        const r=new FileReader();
+        r.onload=()=>{ img.src=r.result; resolve(); };
+        r.readAsDataURL(blob);
+      });
+    }catch(e){ /* silently skip if image can't be fetched */ }
+  }
+
+  const bentoEl=document.getElementById('bento-view');
+  const allImgs=[...bentoEl.querySelectorAll('img')];
+  await Promise.all(allImgs.map(imgToBase64));
+
+  /* 3. Grab the fully rendered bento HTML (with inline images) */
+  const bentoHTML=bentoEl.outerHTML;
+
+  /* 4. Grab all CSS from <style> tags */
+  const styles=[...document.querySelectorAll('style')].map(s=>s.innerHTML).join('\n');
+  const fontLink=document.querySelector('link[href*="fonts"]')?.outerHTML||'';
+
+  /* 5. Name from filled data */
+  const personName=document.getElementById('hero-name')?.value||'Biodata';
+  const filename=`vivah-parichay-${personName.replace(/\s+/g,'-').toLowerCase()}.html`;
+
+  /* 6. Build standalone HTML — bento only, no edit UI, no topbar */
+  const html=`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Vivah Parichay — ${personName}</title>
+${fontLink}
+<style>
+${styles}
+/* Standalone bento overrides */
+body{background:#f0e8d8 !important;margin:0;padding:24px;}
+.bento-view{display:block !important;max-width:980px;margin:0 auto;padding:0;}
+.page,.topbar,#particles{display:none !important;}
+@media print{
+  body{background:white !important;padding:0;}
+  .bento-view{padding:0;}
+  .bc{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+${bentoHTML}
+<div style="text-align:center;margin-top:24px;font-family:'Cormorant Garamond',serif;font-size:11px;color:#9a7545;letter-spacing:2px;">
+  ॥ शुभ विवाह ॥ &nbsp;·&nbsp; All information is private &amp; confidential
+</div>
+</body>
+</html>`;
+
+  /* 7. Download */
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename; a.click();
+  URL.revokeObjectURL(url);
+
+  /* 8. Show toast */
+  showSaveToast();
+  document.getElementById('save-toast').textContent='⬇ Bento biodata downloaded!';
+}
+
+/* ══ WORK / EDU / HOBBIE HELPERS ══ */
+function updateWorkPrev(){
+  const t=[...document.querySelectorAll('.job-ti')].map(i=>i.value.trim()).filter(Boolean);
+  document.getElementById('prev-work').textContent=t.length?t.join(' · '):'Add your job history';
+}
+function addJob(){
+  const c=document.getElementById('jobs-c');
+  const d=document.createElement('div');d.className='job-entry';
+  d.innerHTML=`<div class="job-top"><div><input class="job-ti" placeholder="Job Title / Designation" oninput="updateWorkPrev();syncBento()"/><input class="job-co" placeholder="Company Name · City" oninput="syncBento()"/></div><div class="job-yr"><input placeholder="2021" style="width:42px;"/>–<input placeholder="Present" style="width:52px;"/></div></div><textarea class="job-desc" rows="2" placeholder="Brief description…"></textarea><button class="rm-btn" onclick="this.closest('.job-entry').remove();updateWorkPrev();syncBento()">✕</button>`;
+  c.appendChild(d);
+}
+function addEdu(){
+  const c=document.getElementById('edu-c');
+  const d=document.createElement('div');d.className='edu-row';
+  d.innerHTML=`<div class="edu-yr"><input placeholder="Year" oninput="syncBento()"/></div><div class="edu-deg"><input placeholder="Degree / Course" oninput="syncBento()"/><div class="edu-inst"><input placeholder="Institution · City" oninput="syncBento()"/></div></div><div class="edu-pct"><input placeholder="%"/></div>`;
+  c.appendChild(d);
+}
+function toggleHb(el){el.classList.toggle('on');syncBentoHobbies();}
+function addHobby(e,input){
+  if(e.key==='Enter'&&input.value.trim()){
+    const t=document.createElement('span');t.className='hb';t.textContent=input.value.trim();
+    t.onclick=()=>toggleHb(t);
+    input.parentNode.insertBefore(t,input);input.value='';
+  }
+}
+
+/* ══ SOCIAL ══ */
+function openSoc(e,id){
+  e.preventDefault();const u=document.getElementById(id).value.trim();
+  if(!u)return;window.open(u.startsWith('http')?u:'https://'+u,'_blank');
+}
+
+/* ══ PRINT ══ */
+function doPrint(){
+  setMode('bento');
+  syncBento();
+  setTimeout(()=>window.print(),400);
+}
+
+/* ══════════════════════════════════════
+   AUTO-SAVE & RESTORE — localStorage
+══════════════════════════════════════ */
+const SAVE_KEY = 'vivah_parichay_v7';
+
+/* All simple input/textarea IDs */
+const FIELD_IDS = [
+  'hero-name','ig','li',
+  's-dob','s-rashi','s-height','s-blood','s-manglik','s-city',
+  'p-tob','p-pob','p-rel','p-caste','p-gotra','p-diet',
+  'p-complex','p-marital','p-lang','p-native',
+  'f-dad-name','f-dad-occ','f-mom-name','f-mom-occ',
+  'f-bro-name','f-bro-occ','f-sis-name','f-sis-occ',
+  'f-gdad1','f-gdad1-occ','f-gdad2','f-gdad2-occ',
+  'f-unc1','f-unc1-occ','f-unc2','f-unc2-occ','f-unc3','f-unc3-occ',
+  'f-cousins','f-bg','about-txt',
+  'c-phone','c-email','c-person','c-addr',
+];
+
+function collectData(){
+  const data = {};
+
+  /* simple fields */
+  FIELD_IDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) data[id]=el.value;
+  });
+
+  /* jobs — variable count */
+  data.jobs = [...document.querySelectorAll('#jobs-c .job-entry')].map(e=>({
+    ti: e.querySelector('.job-ti')?.value||'',
+    co: e.querySelector('.job-co')?.value||'',
+    y1: e.querySelectorAll('.job-yr input')[0]?.value||'',
+    y2: e.querySelectorAll('.job-yr input')[1]?.value||'',
+    desc: e.querySelector('.job-desc')?.value||'',
+  }));
+
+  /* education rows */
+  data.edu = [...document.querySelectorAll('#edu-c .edu-row')].map(r=>({
+    yr:   r.querySelector('.edu-yr input')?.value||'',
+    deg:  r.querySelector('.edu-deg input')?.value||'',
+    inst: r.querySelector('.edu-inst input')?.value||'',
+    pct:  r.querySelector('.edu-pct input')?.value||'',
+  }));
+
+  /* selected hobbies */
+  data.hobbies = [...document.querySelectorAll('#hb-row .hb')].map(h=>({
+    text: h.textContent,
+    on:   h.classList.contains('on'),
+  }));
+
+  /* photos as base64 */
+  const mp=document.getElementById('mp-img');
+  const mp2=document.getElementById('mp2-img');
+  if(mp&&mp.src&&mp.style.display!=='none') data.photo1=mp.src;
+  if(mp2&&mp2.src&&mp2.style.display!=='none') data.photo2=mp2.src;
+
+  /* section icons */
+  ['personal','work','edu','family','about','contact'].forEach(k=>{
+    const img=document.getElementById(`ico-${k}-img`);
+    if(img&&img.src&&img.style.display!=='none') data[`ico_${k}`]=img.src;
+  });
+
+  return data;
+}
+
+function applyData(data){
+  if(!data) return;
+
+  /* simple fields */
+  FIELD_IDS.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&data[id]!==undefined) el.value=data[id];
+  });
+
+  /* jobs */
+  if(data.jobs&&data.jobs.length){
+    const c=document.getElementById('jobs-c');
+    c.innerHTML=''; /* clear default */
+    data.jobs.forEach(j=>{
+      const d=document.createElement('div');d.className='job-entry';
+      d.innerHTML=`<div class="job-top"><div><input class="job-ti" placeholder="Job Title / Designation" oninput="updateWorkPrev();syncBento()" value="${esc(j.ti)}"/><input class="job-co" placeholder="Company Name · City" oninput="syncBento()" value="${esc(j.co)}"/></div><div class="job-yr"><input placeholder="2021" style="width:42px;" value="${esc(j.y1)}"/>–<input placeholder="Present" style="width:52px;" value="${esc(j.y2)}"/></div></div><textarea class="job-desc" rows="2" placeholder="Brief description…" oninput="syncBento()">${esc(j.desc)}</textarea><button class="rm-btn" onclick="this.closest('.job-entry').remove();updateWorkPrev();syncBento()">✕</button>`;
+      c.appendChild(d);
+    });
+    updateWorkPrev();
+  }
+
+  /* education */
+  if(data.edu&&data.edu.length){
+    const c=document.getElementById('edu-c');
+    c.innerHTML='';
+    data.edu.forEach(e=>{
+      const d=document.createElement('div');d.className='edu-row';
+      d.innerHTML=`<div class="edu-yr"><input placeholder="Year" oninput="syncBento()" value="${esc(e.yr)}"/></div><div class="edu-deg"><input placeholder="Degree / Course" oninput="syncBento()" value="${esc(e.deg)}"/><div class="edu-inst"><input placeholder="Institution · City" oninput="syncBento()" value="${esc(e.inst)}"/></div></div><div class="edu-pct"><input placeholder="%" value="${esc(e.pct)}"/></div>`;
+      c.appendChild(d);
+    });
+  }
+
+  /* hobbies */
+  if(data.hobbies&&data.hobbies.length){
+    const row=document.getElementById('hb-row');
+    const addInput=row.querySelector('.hb-add');
+    /* restore built-in ones */
+    row.querySelectorAll('.hb').forEach(h=>{
+      const match=data.hobbies.find(hd=>hd.text===h.textContent);
+      if(match&&match.on) h.classList.add('on');
+    });
+    /* restore custom ones */
+    data.hobbies.filter(hd=>![...row.querySelectorAll('.hb')].find(h=>h.textContent===hd.text)).forEach(hd=>{
+      const t=document.createElement('span');t.className='hb'+(hd.on?' on':'');
+      t.textContent=hd.text;t.onclick=()=>toggleHb(t);
+      row.insertBefore(t,addInput);
+    });
+  }
+
+  /* photos */
+  if(data.photo1) restorePhoto('mp-img','front-ico','front-hint',data.photo1);
+  if(data.photo2) restorePhoto('mp2-img','back-ico','back-hint',data.photo2);
+
+  /* icons */
+  ['personal','work','edu','family','about','contact'].forEach(k=>{
+    if(data[`ico_${k}`]) restoreIco(k, data[`ico_${k}`]);
+  });
+}
+
+function restorePhoto(imgId,icoId,hintId,src){
+  const img=document.getElementById(imgId);
+  if(!img) return;
+  img.src=src; img.style.display='block';
+  const ico=document.getElementById(icoId);
+  const hint=document.getElementById(hintId);
+  if(ico) ico.style.display='none';
+  if(hint) hint.style.display='none';
+}
+
+function restoreIco(key, src){
+  const ico=document.getElementById(`ico-${key}`);
+  const img=document.getElementById(`ico-${key}-img`);
+  if(!ico||!img) return;
+  img.src=src; img.style.display='block';
+  ico.classList.add('has-img');
+}
+
+function esc(str){ return (str||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+/* Save on every input change — debounced */
+let saveTimer=null;
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{
+      const data=collectData();
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      showSaveToast();
+    }catch(e){console.warn('Save failed',e);}
+  }, 600);
+}
+
+/* Hook save onto all inputs */
+function hookAutoSave(){
+  document.addEventListener('input', scheduleSave);
+  document.addEventListener('change', scheduleSave);
+}
+
+/* Toast notification */
+function showSaveToast(){
+  let t=document.getElementById('save-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='save-toast';
+    t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--dark);color:var(--gold2);padding:8px 18px;border-radius:20px;font-size:11px;letter-spacing:1px;border:1px solid var(--border2);z-index:999;opacity:0;transition:all .3s;pointer-events:none;font-family:"Cormorant Garamond",serif;';
+    document.body.appendChild(t);
+  }
+  t.textContent='✓ Saved automatically';
+  t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(10px)';},2000);
+}
+
+/* Clear saved data */
+function clearSavedData(){
+  if(!confirm('Clear all saved data? This cannot be undone.')) return;
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
+
+/* Restore on page load — config file takes priority */
+window.addEventListener('DOMContentLoaded',()=>{
+
+  /* ── Load from biodata.config.js if available ── */
+  if(typeof BIODATA !== 'undefined'){
+    loadFromConfig(BIODATA);
+  } else {
+    /* ── Fallback: restore from localStorage ── */
+    try{
+      const raw=localStorage.getItem(SAVE_KEY);
+      if(raw){ applyData(JSON.parse(raw)); }
+    }catch(e){console.warn('Restore failed',e);}
+  }
+
+  syncBento();
+  hookAutoSave();
+});
+
+/* Load all fields from BIODATA config object */
+function loadFromConfig(C){
+  const set=(id,val)=>{ const el=document.getElementById(id); if(el&&val!==undefined&&val!=='') el.value=val; };
+
+  set('hero-name',C.name); set('ig',C.instagram); set('li',C.linkedin);
+  set('s-dob',C.dob); set('s-rashi',C.rashi); set('s-height',C.height);
+  set('s-blood',C.bloodGroup); set('s-manglik',C.manglik); set('s-city',C.city);
+  set('p-tob',C.timeOfBirth); set('p-pob',C.placeOfBirth); set('p-rel',C.religion);
+  set('p-caste',C.caste); set('p-gotra',C.gotra); set('p-diet',C.diet);
+  set('p-complex',C.complexion); set('p-marital',C.maritalStatus);
+  set('p-lang',C.languages); set('p-native',C.nativePlace);
+  set('f-cousins',C.cousins); set('f-bg',C.familyBackground);
+  set('about-txt',C.aboutText);
+  set('c-phone',C.phone); set('c-email',C.email);
+  set('c-person',C.contactPerson); set('c-addr',C.address);
+
+  /* Family — nested objects */
+  const fam=C.family||{};
+  if(fam.father) { set('f-dad-name',fam.father.name); set('f-dad-occ',fam.father.occ); }
+  if(fam.mother) { set('f-mom-name',fam.mother.name); set('f-mom-occ',fam.mother.occ); }
+  if(fam.brother){ set('f-bro-name',fam.brother.name);set('f-bro-occ',fam.brother.occ);}
+  if(fam.sister&&fam.sister.name){ set('f-sis-name',fam.sister.name); set('f-sis-occ',fam.sister.occ); }
+
+  const gp=C.grandparents||{};
+  if(gp.dadaji){ set('f-gdad1',gp.dadaji.name); set('f-gdad1-occ',gp.dadaji.occ); }
+  if(gp.nanaji){ set('f-gdad2',gp.nanaji.name); set('f-gdad2-occ',gp.nanaji.occ); }
+
+  const uncles=C.uncles||[];
+  if(uncles[0]){ set('f-unc1',uncles[0].name); set('f-unc1-occ',uncles[0].occ); }
+  if(uncles[1]){ set('f-unc2',uncles[1].name); set('f-unc2-occ',uncles[1].occ); }
+  if(uncles[2]){ set('f-unc3',uncles[2].name); set('f-unc3-occ',uncles[2].occ); }
+
+  /* Jobs */
+  if(C.jobs&&C.jobs.length){
+    const cont=document.getElementById('jobs-c'); cont.innerHTML='';
+    C.jobs.forEach(j=>{
+      const d=document.createElement('div');d.className='job-entry';
+      d.innerHTML=`<div class="job-top"><div><input class="job-ti" placeholder="Job Title" oninput="updateWorkPrev();syncBento()" value="${esc(j.title)}"/><input class="job-co" placeholder="Company · City" oninput="syncBento()" value="${esc(j.company)}"/></div><div class="job-yr"><input placeholder="From" style="width:42px;" value="${esc(j.from)}"/>–<input placeholder="To" style="width:52px;" value="${esc(j.to)}"/></div></div><textarea class="job-desc" rows="2" placeholder="Description…" oninput="syncBento()">${esc(j.desc)}</textarea><button class="rm-btn" onclick="this.closest('.job-entry').remove();updateWorkPrev();syncBento()">✕</button>`;
+      cont.appendChild(d);
+    });
+    updateWorkPrev();
+  }
+
+  /* Education */
+  if(C.education&&C.education.length){
+    const cont=document.getElementById('edu-c'); cont.innerHTML='';
+    C.education.forEach(e=>{
+      const d=document.createElement('div');d.className='edu-row';
+      d.innerHTML=`<div class="edu-yr"><input placeholder="Year" oninput="syncBento()" value="${esc(e.year)}"/></div><div class="edu-deg"><input placeholder="Degree" oninput="syncBento()" value="${esc(e.degree)}"/><div class="edu-inst"><input placeholder="Institution" oninput="syncBento()" value="${esc(e.institution)}"/></div></div><div class="edu-pct"><input placeholder="%" value="${esc(e.percent)}"/></div>`;
+      cont.appendChild(d);
+    });
+  }
+
+  /* Hobbies */
+  if(C.hobbies){
+    document.querySelectorAll('#hb-row .hb').forEach(h=>{
+      if(C.hobbies[h.textContent]===true) h.classList.add('on');
+    });
+  }
+
+  /* ── Load images from static/ — silently skip if file missing ── */
+  function loadImg(src, imgEl, ...hideEls){
+    if(!src||!imgEl) return;
+    imgEl.onload=()=>{
+      imgEl.style.display='block';
+      hideEls.forEach(el=>{ if(el) el.style.display='none'; });
+    };
+    imgEl.onerror=()=>{}; // file not added yet — just show placeholder
+    imgEl.src=src;
+  }
+
+  /* Main flip photos */
+  loadImg(C.photo1, document.getElementById('mp-img'),
+    document.getElementById('front-ico'), document.getElementById('front-hint'));
+  loadImg(C.photo2, document.getElementById('mp2-img'),
+    document.getElementById('back-ico'),  document.getElementById('back-hint'));
+
+  /* Family photos — load into fam-photo circles */
+  function famImg(src, imgId, wrapId){
+    if(!src) return;
+    const img=document.getElementById(imgId);
+    const wrap=document.getElementById(wrapId);
+    if(!img||!wrap) return;
+    img.onload=()=>{ img.style.display='block'; const ph=wrap.querySelector('span'); if(ph)ph.style.display='none'; };
+    img.onerror=()=>{};
+    img.src=src;
+  }
+  famImg(fam.father?.photo,  'fam-img-father',  'fam-photo-father');
+  famImg(fam.mother?.photo,  'fam-img-mother',  'fam-photo-mother');
+  famImg(fam.brother?.photo, 'fam-img-brother', 'fam-photo-brother');
+  famImg(fam.sister?.photo,  'fam-img-sister',  'fam-photo-sister');
+  famImg(gp.dadaji?.photo,   'fam-img-dadaji',  'fam-photo-dadaji');
+  famImg(gp.nanaji?.photo,   'fam-img-nanaji',  'fam-photo-nanaji');
+  famImg(uncles[0]?.photo,   'fam-img-uncle1',  'fam-photo-uncle1');
+  famImg(uncles[1]?.photo,   'fam-img-uncle2',  'fam-photo-uncle2');
+  famImg(uncles[2]?.photo,   'fam-img-uncle3',  'fam-photo-uncle3');
+
+  /* Section header icons */
+  const icons=C.icons||{};
+  Object.entries(icons).forEach(([key,src])=>{
+    if(!src) return;
+    const ico=document.getElementById('ico-'+key);
+    const img=document.getElementById('ico-'+key+'-img');
+    if(!ico||!img) return;
+    img.onload=()=>{ img.style.display='block'; ico.classList.add('has-img'); };
+    img.onerror=()=>{};
+    img.src=src;
+  });
+
+  syncBentoHobbies();
+  syncBentoPhotos();
+}
+</script>
+</body>
+</html>
