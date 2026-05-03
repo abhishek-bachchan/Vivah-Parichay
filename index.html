@@ -568,14 +568,6 @@ body.hindi .acc-title-hi{display:block;}
             </div>
             <div class="fam-mini">
               <div class="fam-header">
-                <div class="fam-photo" id="fam-photo-brother"><img id="fam-img-brother" alt=""/><span>👨</span></div>
-                <div class="fam-role en">Brother(s) · भाई</div>
-              </div>
-              <div class="fam-name"><input id="f-bro-name" placeholder="Name(s)" oninput="syncBento()"/></div>
-              <div class="fam-det"><input id="f-bro-occ" placeholder="Occupation · Marital Status" oninput="syncBento()"/></div>
-            </div>
-            <div class="fam-mini">
-              <div class="fam-header">
                 <div class="fam-photo" id="fam-photo-sister"><img id="fam-img-sister" alt=""/><span>👩</span></div>
                 <div class="fam-role en">Sister(s) · बहन</div>
               </div>
@@ -762,8 +754,8 @@ body.hindi .acc-title-hi{display:block;}
       <div class="b-name-sub" id="b-city">City · State</div>
       <span class="b-name-tag en">Groom · वर</span>
       <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;" id="b-soc-row">
-        <div class="b-soc-pill" id="b-ig"><div class="b-soc-dot"></div><span id="b-ig-txt">Instagram</span></div>
-        <div class="b-soc-pill" id="b-li"><div class="b-soc-dot"></div><span id="b-li-txt">LinkedIn</span></div>
+        <a class="b-soc-pill" id="b-ig" href="#" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;"><div class="b-soc-dot"></div><span id="b-ig-txt">Instagram</span></a>
+        <a class="b-soc-pill" id="b-li" href="#" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer;"><div class="b-soc-dot"></div><span id="b-li-txt">LinkedIn</span></a>
       </div>
     </div>
 
@@ -809,7 +801,6 @@ body.hindi .acc-title-hi{display:block;}
       <div class="b-fam-g">
         <div class="b-fam-card"><div class="b-fam-role">Father</div><div class="b-fam-name" id="b-dad-name">—</div><div class="b-fam-occ" id="b-dad-occ">—</div></div>
         <div class="b-fam-card"><div class="b-fam-role">Mother</div><div class="b-fam-name" id="b-mom-name">—</div><div class="b-fam-occ" id="b-mom-occ">—</div></div>
-        <div class="b-fam-card"><div class="b-fam-role">Brother(s)</div><div class="b-fam-name" id="b-bro-name">—</div><div class="b-fam-occ" id="b-bro-occ">—</div></div>
         <div class="b-fam-card"><div class="b-fam-role">Sister(s)</div><div class="b-fam-name" id="b-sis-name">—</div><div class="b-fam-occ" id="b-sis-occ">—</div></div>
       </div>
       <div style="margin-top:8px;padding-top:8px;border-top:.5px solid var(--border);">
@@ -1024,11 +1015,16 @@ function syncBento(){
   sb('b-addr',g('c-addr'));
   const igTxt=document.getElementById('b-ig-txt');
   const liTxt=document.getElementById('b-li-txt');
-  if(igTxt)igTxt.textContent=g('ig')||'Instagram';
-  if(liTxt)liTxt.textContent=g('li')||'LinkedIn';
+  if(igTxt)igTxt.textContent='Instagram';
+  if(liTxt)liTxt.textContent='LinkedIn';
+  const bIg=document.getElementById('b-ig');
+  const bLi=document.getElementById('b-li');
+  const igVal=g('ig'), liVal=g('li');
+  if(bIg) bIg.href=igVal?(igVal.startsWith('http')?igVal:'https://'+igVal):'#';
+  if(bLi) bLi.href=liVal?(liVal.startsWith('http')?liVal:'https://'+liVal):'#';
   sb('b-dad-name',g('f-dad-name'));sb('b-dad-occ',g('f-dad-occ'));
   sb('b-mom-name',g('f-mom-name'));sb('b-mom-occ',g('f-mom-occ'));
-  sb('b-bro-name',g('f-bro-name'));sb('b-bro-occ',g('f-bro-occ'));
+
   sb('b-sis-name',g('f-sis-name'));sb('b-sis-occ',g('f-sis-occ'));
   sb('b-gdad1',g('f-gdad1'));sb('b-gdad1-occ',g('f-gdad1-occ'));
   sb('b-gdad2',g('f-gdad2'));sb('b-gdad2-occ',g('f-gdad2-occ'));
